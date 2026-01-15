@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Backup files
+*.backup
+
+# Local overrides (keep these private)
+settings.local.json
+.env
+.env.*
