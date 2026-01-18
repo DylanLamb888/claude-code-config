@@ -20,7 +20,7 @@ if command -v npx &> /dev/null; then
   if npx prettier --version &> /dev/null; then
     npx prettier --write "$file_path" 2>/dev/null
     if [[ $? -eq 0 ]]; then
-      echo "Formatted: $file_path"
+      echo "✓ Formatted: $file_path"
     fi
   fi
 fi

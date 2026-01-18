@@ -1,105 +1,110 @@
 # Claude Code Configuration
 
-Personal Claude Code configuration including settings, hooks, skills, commands, and MCP servers.
+Personal Claude Code configuration for portable workflows. Includes settings, hooks, skills, commands, agents, MCP servers, and Ralph autonomous coding loop.
 
 ## Quick Setup
 
 ```bash
-# Clone the repo
-git clone https://github.com/YOUR_USERNAME/claude-code-config.git
+git clone https://github.com/DylanLamb888/claude-code-config.git
 cd claude-code-config
-
-# Run the setup script
 ./setup.sh
-```
-
-## Manual Setup
-
-### 1. Settings
-
-Copy the main settings file:
-
-```bash
-cp settings.json ~/.claude/settings.json
-```
-
-**Note:** If you have existing settings, merge them manually to preserve any project-specific configurations.
-
-### 2. MCP Servers
-
-Copy the MCP configuration to your home directory:
-
-```bash
-cp .mcp.json ~/.mcp.json
-```
-
-### 3. Hooks
-
-Copy hook scripts and make them executable:
-
-```bash
-mkdir -p ~/.claude/hooks
-cp hooks/*.sh ~/.claude/hooks/
-chmod +x ~/.claude/hooks/*.sh
-```
-
-### 4. Skills
-
-Copy skill directories:
-
-```bash
-cp -r skills/* ~/.claude/skills/
-```
-
-### 5. Commands
-
-Copy custom commands:
-
-```bash
-mkdir -p ~/.claude/commands
-cp commands/*.md ~/.claude/commands/
 ```
 
 ## What's Included
 
-### Settings (`settings.json`)
+### Core Config Files
 
-- **Permissions**: Pre-approved commands for common operations (git, npm, prettier, eslint)
-- **Denied patterns**: Blocks reading `.env` files and secrets
-- **Enabled plugins**: Full list of official Claude plugins
-- **Hook configurations**: Pre and post tool-use hooks
+| File | Purpose |
+|------|---------|
+| `CLAUDE.md` | Global instructions for Claude Code (code quality, plan mode, Ralph) |
+| `settings.json` | Permissions, hooks, enabled plugins |
+| `.mcp.json` | MCP server configurations |
+| `ralph-instructions.md` | Instructions for Ralph autonomous loops |
+| `feedback-loops.md` | Language-specific feedback commands |
+| `husky-setup.md` | Husky + lint-staged setup guide |
 
 ### Hooks (`hooks/`)
 
+Pre and post tool-use hooks for quality gates and automation.
+
 | Hook | Trigger | Purpose |
 |------|---------|---------|
-| `security-check.sh` | PreToolUse (Bash) | Blocks commits containing sensitive data patterns |
-| `pre-commit-test.sh` | PreToolUse (Bash) | Runs tests before allowing git commits |
-| `format-typescript.sh` | PostToolUse (Write/Edit) | Auto-formats TS/JS files with Prettier |
-
-### Skills (`skills/`)
-
-| Skill | Description |
-|-------|-------------|
-| `agent-browser` | Browser automation for web testing and interaction |
-| `react-best-practices` | React/Next.js performance optimization guidelines |
-| `ui-skills` | Opinionated constraints for building better UIs |
+| `security-check.sh` | PreToolUse (Bash) | Blocks commits with sensitive data patterns |
+| `pre-commit-test.sh` | PreToolUse (Bash) | Runs tests before git commits |
+| `typecheck-pre-commit.sh` | PreToolUse (Bash) | Runs TypeScript check before commits |
+| `branch-protection.sh` | PreToolUse (Bash) | Prevents direct commits to main/master |
+| `format-typescript.sh` | PostToolUse (Write/Edit) | Auto-formats TS/JS with Prettier |
+| `lint-on-write.sh` | PostToolUse (Write/Edit) | Runs ESLint on edited files |
+| `notify-complete.sh` | PostToolUse (Bash) | macOS notification on long command completion |
 
 ### Commands (`commands/`)
 
+Custom slash commands for common workflows.
+
 | Command | Description |
 |---------|-------------|
-| `web-interface-guidelines` | Reviews UI code for Vercel Web Interface Guidelines compliance |
+| `/prd` | Interactive PRD generation for Ralph loops |
+| `/ralph` | Convert markdown PRD to JSON for Ralph |
+| `/preflight` | Run all verification checks before commit |
+| `/self-review` | Review staged changes for common issues |
+| `/verify-build` | Run build and report errors |
+| `/verify-ui` | Screenshot and check for visual issues |
+| `/check-console` | Read browser console for errors |
 
-### MCP Servers (`.mcp.json`)
+### Skills (`skills/`)
 
-| Server | Description |
-|--------|-------------|
-| `chrome-devtools` | Chrome DevTools integration for browser automation |
+Specialized knowledge and guidelines.
 
-## Enabled Plugins
+| Skill | Description |
+|-------|-------------|
+| `agent-browser` | Browser automation with agent-browser CLI |
+| `react-best-practices` | 40+ React/Next.js performance rules from Vercel |
+| `ui-skills` | Opinionated UI constraints (Tailwind, animations, components) |
+| `web-design-guidelines` | Review UI code against Web Interface Guidelines |
 
-This config enables the following official plugins:
+### Agents (`agents/`)
+
+Custom agent definitions.
+
+| Agent | Description |
+|-------|-------------|
+| `code-improver` | Code review for readability, performance, best practices |
+
+### Ralph (`ralph/`)
+
+Autonomous AI coding loop for completing PRDs.
+
+| File | Description |
+|------|-------------|
+| `afk-ralph.sh` | AFK loop with Docker sandbox (unattended) |
+| `ralph-once.sh` | HITL single iteration (watch and intervene) |
+| `prompt.md` | Instructions sent to Claude each iteration |
+| `prd.json.example` | Example JSON PRD format |
+| `prd.md.example` | Example markdown PRD format |
+| `README.md` | Ralph usage documentation |
+
+## Settings Overview
+
+### Allowed Permissions
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "WebSearch", "WebFetch",
+      "Bash(npm run:*)", "Bash(npm test:*)", "Bash(npm install:*)",
+      "Bash(git add:*)", "Bash(git commit:*)", "Bash(git push:*)",
+      "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)",
+      "Bash(npx prettier:*)", "Bash(npx eslint:*)"
+    ],
+    "deny": [
+      "Read(.env)", "Read(.env.*)", "Read(**/secrets/**)"
+    ]
+  }
+}
+```
+
+### Enabled Plugins
 
 - `frontend-design` - Frontend design assistance
 - `context7` - Documentation lookup
@@ -108,41 +113,101 @@ This config enables the following official plugins:
 - `code-review` - Code review assistance
 - `commit-commands` - Git commit helpers
 - `playwright` - Browser testing
-- `supabase` - Supabase integration
 - `agent-sdk-dev` - Agent SDK development
-- `figma` - Figma design integration
 - `security-guidance` - Security best practices
-- `typescript-lsp` - TypeScript language server
-- `explanatory-output-style` - Educational output mode
 - `Notion` - Notion integration
-- `hookify` - Hook creation helper
 - `vercel` - Vercel deployment
-- `ralph-loop` - Ralph Loop workflow
-- `stripe` - Stripe integration
-- `gopls-lsp` - Go language server
-- `pyright-lsp` - Python language server
+
+### MCP Servers
+
+- `chrome-devtools` - Chrome DevTools integration for browser automation
+
+## Ralph Workflow
+
+Ralph is an autonomous coding loop that works through PRDs.
+
+### Quick Start
+
+1. Create a PRD: `claude` then type `/prd`
+2. Convert to JSON: `/ralph`
+3. Run Ralph:
+   - HITL: `~/.claude/ralph/ralph-once.sh`
+   - AFK: `~/.claude/ralph/afk-ralph.sh 50`
+
+### How It Works
+
+Each iteration:
+1. Reads PRD and progress.txt
+2. Finds highest-priority incomplete story
+3. Implements it
+4. Runs feedback loops (typecheck, test, lint)
+5. Commits on success
+6. Sets `passes: true` in PRD
+7. Repeats until all stories pass
+
+## Manual Installation
+
+### All Files
+
+```bash
+# Core configs
+cp CLAUDE.md ~/.claude/
+cp settings.json ~/.claude/
+cp ralph-instructions.md ~/.claude/
+cp feedback-loops.md ~/.claude/
+cp husky-setup.md ~/.claude/
+cp .mcp.json ~/
+
+# Hooks
+mkdir -p ~/.claude/hooks
+cp hooks/*.sh ~/.claude/hooks/
+chmod +x ~/.claude/hooks/*.sh
+
+# Commands
+mkdir -p ~/.claude/commands
+cp commands/*.md ~/.claude/commands/
+
+# Skills
+cp -r skills/* ~/.claude/skills/
+
+# Agents
+mkdir -p ~/.claude/agents
+cp agents/*.md ~/.claude/agents/
+
+# Ralph
+mkdir -p ~/.claude/ralph
+cp ralph/*.sh ~/.claude/ralph/
+cp ralph/*.md ~/.claude/ralph/
+cp ralph/*.example ~/.claude/ralph/
+chmod +x ~/.claude/ralph/*.sh
+```
 
 ## Customization
 
-### Adding New Hooks
+### Adding Hooks
 
-1. Create a new `.sh` file in `hooks/`
-2. Add the hook configuration to `settings.json` under `hooks.PreToolUse` or `hooks.PostToolUse`
-3. Make the script executable: `chmod +x hooks/your-hook.sh`
+1. Create `hooks/your-hook.sh`
+2. Add to `settings.json` under `hooks.PreToolUse` or `hooks.PostToolUse`
+3. Make executable: `chmod +x hooks/your-hook.sh`
 
-### Adding New Skills
+### Adding Skills
 
-1. Create a new directory in `skills/`
-2. Add a `SKILL.md` file with frontmatter (name, description) and content
+1. Create `skills/your-skill/SKILL.md`
+2. Add frontmatter: `name`, `description`
+3. Add skill content
 
-### Adding New Commands
+### Adding Commands
 
-1. Create a new `.md` file in `commands/`
-2. Add frontmatter with `description` and optional `argument-hint`
+1. Create `commands/your-command.md`
+2. Commands are available as `/your-command`
+
+### Adding Agents
+
+1. Create `agents/your-agent.md`
+2. Add frontmatter: `name`, `description`, `tools`, `model`
+3. Add agent instructions
 
 ## Syncing Changes
-
-To update your local Claude Code config from this repo:
 
 ```bash
 cd ~/claude-code-config

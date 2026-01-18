@@ -1,0 +1,70 @@
+# Task Priority System
+
+## Overview
+Add priority levels to tasks so users can organize and filter by importance. This includes database schema changes, UI indicators, and filtering capabilities.
+
+## Branch
+`ralph/task-priority`
+
+## User Stories
+
+### US-001: Add priority field to database
+**Priority:** 1
+**Description:** As a developer, I need to store task priority so it persists across sessions.
+
+**Acceptance Criteria:**
+- [ ] Add priority column to tasks table with type: 'high' | 'medium' | 'low'
+- [ ] Default value is 'medium'
+- [ ] Generate and run migration successfully
+- [ ] Typecheck passes
+- [ ] Tests pass
+
+**Notes:** Check existing migration patterns in the codebase.
+
+---
+
+### US-002: Display priority indicator on task cards
+**Priority:** 2
+**Description:** As a user, I want to see task priority at a glance without clicking or hovering.
+
+**Acceptance Criteria:**
+- [ ] Each task card shows a colored priority badge
+- [ ] Colors: red=high, yellow=medium, gray=low
+- [ ] Priority is visible without interaction
+- [ ] Typecheck passes
+- [ ] Tests pass
+- [ ] Verify in browser
+
+**Notes:** Follow existing badge/pill component patterns if available.
+
+---
+
+### US-003: Add priority selector to task edit modal
+**Priority:** 3
+**Description:** As a user, I want to change a task's priority when editing it.
+
+**Acceptance Criteria:**
+- [ ] Priority dropdown appears in task edit modal
+- [ ] Current priority is pre-selected
+- [ ] Change saves on selection (no separate save button needed)
+- [ ] Typecheck passes
+- [ ] Tests pass
+- [ ] Verify in browser
+
+**Notes:** Reuse existing select/dropdown components.
+
+---
+
+### US-004: Filter tasks by priority
+**Priority:** 4
+**Description:** As a user, I want to filter the task list to see only tasks of a specific priority.
+
+**Acceptance Criteria:**
+- [ ] Filter dropdown with options: All, High, Medium, Low
+- [ ] Filter state persists in URL params
+- [ ] Shows empty state when no tasks match
+- [ ] Typecheck passes
+- [ ] Tests pass
+- [ ] Verify in browser
+
+**Notes:** Consider URL param format for shareability (e.g., ?priority=high).

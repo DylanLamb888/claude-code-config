@@ -20,15 +20,15 @@ if ! grep -q '"test"' package.json 2>/dev/null; then
   exit 0
 fi
 
-echo "Running tests before commit..." >&2
+echo "🧪 Running tests before commit..." >&2
 
 # Run tests and capture result
 if npm test 2>&1 | tail -20; then
-  echo "Tests passed!" >&2
+  echo "✓ Tests passed!" >&2
   exit 0
 else
   echo "" >&2
-  echo "Tests failed - commit blocked" >&2
+  echo "❌ Tests failed - commit blocked" >&2
   echo "Please fix the failing tests before committing." >&2
   exit 2
 fi

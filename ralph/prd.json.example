@@ -1,0 +1,70 @@
+{
+  "project": "Task Priority System",
+  "branchName": "ralph/task-priority",
+  "description": "Add priority levels to tasks so users can organize and filter by importance.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add priority field to database",
+      "description": "As a developer, I need to store task priority so it persists across sessions.",
+      "acceptanceCriteria": [
+        "Add priority column to tasks table with type: 'high' | 'medium' | 'low'",
+        "Default value is 'medium'",
+        "Generate and run migration successfully",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Check existing migration patterns in the codebase."
+    },
+    {
+      "id": "US-002",
+      "title": "Display priority indicator on task cards",
+      "description": "As a user, I want to see task priority at a glance without clicking or hovering.",
+      "acceptanceCriteria": [
+        "Each task card shows a colored priority badge",
+        "Colors: red=high, yellow=medium, gray=low",
+        "Priority is visible without interaction",
+        "Typecheck passes",
+        "Tests pass",
+        "Verify in browser"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Follow existing badge/pill component patterns if available."
+    },
+    {
+      "id": "US-003",
+      "title": "Add priority selector to task edit modal",
+      "description": "As a user, I want to change a task's priority when editing it.",
+      "acceptanceCriteria": [
+        "Priority dropdown appears in task edit modal",
+        "Current priority is pre-selected",
+        "Change saves on selection (no separate save button needed)",
+        "Typecheck passes",
+        "Tests pass",
+        "Verify in browser"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Reuse existing select/dropdown components."
+    },
+    {
+      "id": "US-004",
+      "title": "Filter tasks by priority",
+      "description": "As a user, I want to filter the task list to see only tasks of a specific priority.",
+      "acceptanceCriteria": [
+        "Filter dropdown with options: All, High, Medium, Low",
+        "Filter state persists in URL params",
+        "Shows empty state when no tasks match",
+        "Typecheck passes",
+        "Tests pass",
+        "Verify in browser"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Consider URL param format for shareability (e.g., ?priority=high)."
+    }
+  ]
+}

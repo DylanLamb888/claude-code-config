@@ -28,7 +28,7 @@ patterns=(
 
 for pattern in "${patterns[@]}"; do
   if echo "$command" | grep -qi "$pattern"; then
-    echo "Warning: Blocked commit - command references sensitive data pattern: $pattern" >&2
+    echo "⚠️  Security: Blocked commit - command references sensitive data pattern: $pattern" >&2
     echo "Please ensure no secrets are included in your commit." >&2
     exit 2
   fi

@@ -9,10 +9,10 @@ When invoked, apply these opinionated constraints for building better interfaces
 
 ## How to use
 
-- `/ui-skills`
+- `/ui-skills`  
   Apply these constraints to any UI work in this conversation.
 
-- `/ui-skills <file>`
+- `/ui-skills <file>`  
   Review the file against all constraints below and output:
   - violations (quote the exact line/snippet)
   - why it matters (1 short sentence)
@@ -28,7 +28,7 @@ When invoked, apply these opinionated constraints for building better interfaces
 ## Components
 
 - MUST use accessible component primitives for anything with keyboard or focus behavior (`Base UI`, `React Aria`, `Radix`)
-- MUST use the project's existing component primitives first
+- MUST use the project’s existing component primitives first
 - NEVER mix primitive systems within the same interaction surface
 - SHOULD prefer [`Base UI`](https://base-ui.com/react/components) for new primitives if compatible with the stack
 - MUST add an `aria-label` to icon-only buttons
